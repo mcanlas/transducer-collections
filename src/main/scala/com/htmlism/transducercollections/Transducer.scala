@@ -14,21 +14,21 @@ class Composite[A, B, C](left: Transducer[A, B], right: Transducer[B, C]) extend
 
 class Filter[A](f: A => Boolean) extends Transducer[A, A] {
   def apply[R](red: Reducer[R, A]) =
-    (r, a) =>
-      if (f(a))
-        red(r, a)
+    (acc, x) =>
+      if (f(x))
+        red(acc, x)
       else
-        r
+        acc
 }
 
 class Mapper[A, B](f: A => B) extends Transducer[A, B]  {
   def apply[R](red: Reducer[R, B]) =
-    (r, a) => red(r, f(a))
+    (acc, x) => red(acc, f(x))
 }
 
 class FlatMapper[A, B](f: A => TraversableOnce[B]) extends Transducer[A, B]  {
   def apply[R](red: Reducer[R, B]) =
-    (r, a) => f(a).foldLeft(r)(red)
+    (acc, x) => f(x).foldLeft(acc)(red)
 }
 
 object Filter {
