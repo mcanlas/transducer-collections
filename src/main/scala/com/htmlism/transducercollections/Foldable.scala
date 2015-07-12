@@ -4,11 +4,13 @@ object Foldable {
   def apply[A](xs: A*) = new Foldable(xs)
 }
 
-class Foldable[A](xs: Seq[A]) extends CanFold[A] with CanChain[A] {
+class Foldable[A](xs: Seq[A]) extends CanFold[A] with CanChain[A] with CanRender[A, A] {
   def fold[B](z: B, f: (B, A) => B): B = xs.foldLeft(z)(f)
+
+  def render = fold[List[A]](Nil, (acc, x) => acc :+ x)
 }
 
-class WrappedFoldable[A, B](xs: CanFold[A], t: Transducer[A, B]) extends CanFold[A] with CanChain[A] {
+class WrappedFoldable[A, B](xs: CanFold[A], t: Transducer[A, B]) extends CanFold[A] with CanChain[A] with CanRender[A, B] {
   def fold[B](z: B, f: (B, A) => B): B = xs.fold(z, f)
 
   def render = xs.fold[List[B]](Nil, t((acc, x) => acc :+ x))
@@ -29,4 +31,10 @@ trait CanChain[A] {
 
   def flatMap[B](f: A => TraversableOnce[B]): WrappedFoldable[A, B] =
     new WrappedFoldable(this, FlatMapper(f))
+}
+
+trait CanRender[A, B] {
+  self: CanFold[A] =>
+
+  def render: List[B]
 }

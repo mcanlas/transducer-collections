@@ -23,4 +23,6 @@ object Demonstration extends App {
     .map(_ + 200)
     .render
     .mkString("; "))
+
+  println(foldable.render)
 }
