@@ -5,7 +5,7 @@ trait Transducer[A, B] {
 
   def foldUsing[R](f: Reducer[R, B]): Reducer[R, A] = apply[R](f)
 
-  def andThen[C](t: Transducer[B, C]): Transducer[A, C] = new Composite(this, t)
+  def andThen[C](that: Transducer[B, C]): Transducer[A, C] = new Composite(this, that)
 }
 
 class Composite[A, B, C](left: Transducer[A, B], right: Transducer[B, C]) extends Transducer[A, C] {
