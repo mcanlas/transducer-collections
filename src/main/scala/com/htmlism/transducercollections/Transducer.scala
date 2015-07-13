@@ -3,16 +3,20 @@ package com.htmlism.transducercollections
 trait Transducer[A, B] {
   def apply[R](red: Reducer[R, B]): Reducer[R, A]
 
-  def foldUsing[R](red: Reducer[R, B]): Reducer[R, A] = apply[R](red)
-
   def andThen[C](that: Transducer[B, C]): Transducer[A, C] = new Composite(this, that)
 }
 
-class Composite[A, B, C](left: Transducer[A, B], right: Transducer[B, C]) extends Transducer[A, C] {
+trait Transformer[A, B] extends Transducer[A, B] {
+  def appliedTo[R](red: Reducer[R, B]): Reducer[R, A] = apply[R](red)
+
+  override def andThen[C](that: Transducer[B, C]): Transformer[A, C] = new Composite(this, that)
+}
+
+class Composite[A, B, C](left: Transducer[A, B], right: Transducer[B, C]) extends Transformer[A, C] {
   def apply[R](red: Reducer[R, C]) = left(right(red))
 }
 
-class Filter[A](f: A => Boolean) extends Transducer[A, A] {
+class Filter[A](f: A => Boolean) extends Transformer[A, A] {
   def apply[R](red: Reducer[R, A]) =
     (acc, x) =>
       if (f(x))
@@ -21,7 +25,7 @@ class Filter[A](f: A => Boolean) extends Transducer[A, A] {
         acc
 }
 
-class Mapper[A, B](f: A => B) extends Transducer[A, B]  {
+class Mapper[A, B](f: A => B) extends Transformer[A, B]  {
   def apply[R](red: Reducer[R, B]) =
     (acc, x) => red(acc, f(x))
 }

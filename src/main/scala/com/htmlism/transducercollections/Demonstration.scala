@@ -15,7 +15,7 @@ object Demonstration extends App {
   println("filtered")
 
   println(foldable
-    .fold[List[String]](Nil, transducer foldUsing { (acc, x) => acc :+ x } )
+    .fold[List[String]](Nil, transducer appliedTo { (acc, x) => acc :+ x } )
     .mkString(", "))
 
   println(foldable
