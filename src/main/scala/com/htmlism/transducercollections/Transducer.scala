@@ -45,7 +45,7 @@ trait Transducer[A, B] {
   * @tparam B The destination type
   */
 
-trait Transformer[A, B] extends Transducer[A, B] {
+trait EasyTransducer[A, B] extends Transducer[A, B] {
   def appliedTo[X](red: Reducer[X, B]): Reducer[X, A] = apply[X](red)
 
   /**
@@ -56,7 +56,7 @@ trait Transformer[A, B] extends Transducer[A, B] {
     * @return
     */
 
-  override def andThen[C](that: Transducer[B, C]): Transformer[A, C] = new Composite(this, that)
+  override def andThen[C](that: Transducer[B, C]): EasyTransducer[A, C] = new Composite(this, that)
 }
 
 /**
@@ -69,7 +69,7 @@ trait Transformer[A, B] extends Transducer[A, B] {
   * @tparam C
   */
 
-class Composite[A, B, C](left: Transducer[A, B], right: Transducer[B, C]) extends Transformer[A, C] {
+class Composite[A, B, C](left: Transducer[A, B], right: Transducer[B, C]) extends EasyTransducer[A, C] {
   def apply[X](red: Reducer[X, C]) = left(right(red))
 }
 
@@ -80,7 +80,7 @@ class Composite[A, B, C](left: Transducer[A, B], right: Transducer[B, C]) extend
   * @tparam A The origin type
   */
 
-class Filter[A](f: A => Boolean) extends Transformer[A, A] {
+class Filter[A](f: A => Boolean) extends EasyTransducer[A, A] {
   def apply[X](red: Reducer[X, A]) =
     (acc, x) =>
       if (f(x))
@@ -97,7 +97,7 @@ class Filter[A](f: A => Boolean) extends Transformer[A, A] {
   * @tparam B The destination type
   */
 
-class Mapper[A, B](f: A => B) extends Transformer[A, B]  {
+class Mapper[A, B](f: A => B) extends EasyTransducer[A, B]  {
   def apply[X](red: Reducer[X, B]) =
     (acc, x) => red(acc, f(x))
 }

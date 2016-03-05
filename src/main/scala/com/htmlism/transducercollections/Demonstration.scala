@@ -6,7 +6,7 @@ object Demonstration extends App {
   println("Here are 20 random numbers")
   println(numbers.mkString(", "))
 
-  val transducer: Transformer[Int, String] =
+  val transducer: EasyTransducer[Int, String] =
     Filter[Int](_ % 2 == 0) andThen
       Mapper(n => n.toString * n) andThen
       FlatMapper(x => List(x, x))
