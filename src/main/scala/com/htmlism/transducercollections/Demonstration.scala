@@ -18,6 +18,7 @@ object Demonstration extends App {
 
   println("\nHere is the foldable, with a transducer applied manually")
   println(foldable
+    // notice how the destination type is annotated
     .fold[List[String]](Nil, transducer appliedTo { (acc, x) => acc :+ x } )
     .mkString(", "))
 
