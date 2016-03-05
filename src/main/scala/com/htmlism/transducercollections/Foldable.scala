@@ -23,16 +23,16 @@ object Foldable {
   * @tparam A
   */
 
-class Foldable[A](xs: Seq[A]) extends CanFold[A] with CanChain[A] with CanConvert[A, A] {
+class Foldable[A](xs: Seq[A]) extends CanFold[A] with CanChainOperations[A] with CanConvert[A, A] {
   def fold[B](z: B, f: (B, A) => B): B = xs.foldLeft(z)(f)
 
   def toList: List[A] = fold[List[A]](Nil, (acc, x) => acc :+ x)
 }
 
-class WrappedFoldable[A, B](xs: CanFold[A], t: Transducer[A, B]) extends CanFold[A] with CanChain[A] with CanConvert[A, B] {
+class WrappedFoldable[A, B](xs: CanFold[A], t: Transducer[A, B]) extends CanFold[A] with CanChainOperations[A] with CanConvert[A, B] {
   def fold[B](z: B, f: (B, A) => B): B = xs.fold(z, f)
 
-  def toList = xs.fold[List[B]](Nil, t((acc, x) => acc :+ x))
+  def toList: List[B] = xs.fold[List[B]](Nil, t((acc, x) => acc :+ x))
 }
 
 /**
@@ -60,7 +60,7 @@ trait CanFold[A] {
   * @tparam A The type of individual units being operated upon
   */
 
-trait CanChain[A] {
+trait CanChainOperations[A] {
   // demands that the user of this class must also support folding
   self: CanFold[A] =>
 
