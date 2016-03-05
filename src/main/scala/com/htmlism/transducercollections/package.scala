@@ -6,8 +6,8 @@ package object transducercollections {
     *
     * Type parameter order differs from https://github.com/knutwalker/transducers-scala
     *
-    * @tparam R
-    * @tparam A
+    * @tparam X The accumulation type
+    * @tparam A The element type
     */
 
   type Reducer[X, A] = (X, A) => X
