@@ -46,7 +46,7 @@ trait Transducer[A, B] {
   */
 
 trait EasyTransducer[A, B] extends Transducer[A, B] {
-  def appliedTo[X](red: Reducer[X, B]): Reducer[X, A] = apply[X](red)
+  def wrapping[X](red: Reducer[X, B]): Reducer[X, A] = apply[X](red)
 
   /**
     * Exists only to make the return type more specific.
