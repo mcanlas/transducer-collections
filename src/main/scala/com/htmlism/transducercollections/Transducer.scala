@@ -51,10 +51,10 @@ trait Transducer[A, B] {
   */
 
 trait EasyTransducer[A, B] extends Transducer[A, B] {
-  def wrappedOnto[X](red: Reducer[X, B]): Reducer[X, A] = apply[X](red)
+  def wrappedAround[X](red: Reducer[X, B]): Reducer[X, A] = apply[X](red)
 
   /**
-    * Exists only to make the return type more specific.
+    * Exists only to make the return type more specific (and consistent when using `andThen`).
     *
     * @param that
     * @tparam C
