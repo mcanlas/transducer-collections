@@ -22,5 +22,7 @@ package object transducercollections {
     */
 
   type TransducerType[A, B] = (Reducer[X, B] => Reducer[X, A]) forSome { type X }
+
+  implicit def seq2canFold[A](xs: Seq[A]): CanFold[A] = StreamLike(xs)
 }
 

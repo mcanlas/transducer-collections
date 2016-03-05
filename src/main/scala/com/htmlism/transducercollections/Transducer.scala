@@ -118,9 +118,9 @@ class Mapper[A, B](f: A => B) extends EasyTransducer[A, B]  {
   * @tparam B The destination type
   */
 
-class FlatMapper[A, B](f: A => TraversableOnce[B]) extends Transducer[A, B]  {
+class FlatMapper[A, B](f: A => CanFold[B]) extends Transducer[A, B]  {
   def apply[X](red: Reducer[X, B]): Reducer[X, A] =
-    (acc, x) => f(x).foldLeft(acc)(red)
+    (acc, x) => f(x).fold(acc, red)
 }
 
 /**
@@ -144,6 +144,6 @@ object Mapper {
   */
 
 object FlatMapper {
-  def apply[A, B](f: A => TraversableOnce[B]): FlatMapper[A, B] = new FlatMapper(f)
+  def apply[A, B](f: A => CanFold[B]): FlatMapper[A, B] = new FlatMapper(f)
 }
 

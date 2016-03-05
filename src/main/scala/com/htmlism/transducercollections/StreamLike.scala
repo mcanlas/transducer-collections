@@ -81,7 +81,7 @@ trait CanChainOperations[A] {
     * @return
     */
 
-  def flatMap[B](f: A => TraversableOnce[B]): WrappedFoldable[A, B] =
+  def flatMap[B](f: A => CanFold[B]): WrappedFoldable[A, B] =
     new WrappedFoldable(this, FlatMapper(f))
 }
 
