@@ -18,7 +18,7 @@ object Demonstration extends App {
 
   println("\nHere is the foldable, with a transducer applied manually")
   println(foldable
-    // notice how the destination type is annotated
+    // notice how the destination type is explicit
     .fold[List[String]](Nil, transducer wrappedAround accumulateToList)
     .mkString(", "))
 
