@@ -19,7 +19,7 @@ object Demonstration extends App {
   println("\nHere is the foldable, with a transducer applied manually")
   println(foldable
     // notice how the destination type is annotated
-    .fold[List[String]](Nil, transducer appliedTo { (acc, x) => acc :+ x } )
+    .fold[List[String]](Nil, transducer appliedTo accToList)
     .mkString(", "))
 
   println("\nHere is the foldable, with a transducer applied behind the scenes")
@@ -28,4 +28,7 @@ object Demonstration extends App {
     .map(_ + 200)
     .render
     .mkString("; "))
+
+  // { (acc, x) => acc :+ x } )
+  def accToList[A](acc: List[A], x: A) = acc :+ x
 }
