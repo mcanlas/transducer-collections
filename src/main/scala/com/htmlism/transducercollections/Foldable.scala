@@ -1,21 +1,5 @@
 package com.htmlism.transducercollections
 
-/**
-  * Companion object for creating custom collections that are at least foldable.
-  */
-
-object Foldable {
-  /**
-    * Constructs a foldable custom collection given an inline Scala sequence.
-    *
-    * @param xs
-    * @tparam A
-    * @return
-    */
-
-  def apply[A](xs: A*): Foldable[A] = new Foldable(xs)
-}
-
 object StreamLike {
   def apply[A](xs: Seq[A]): StreamLike[A, A] = new Foldable(xs)
 }
