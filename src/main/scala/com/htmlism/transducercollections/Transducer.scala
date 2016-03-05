@@ -110,9 +110,6 @@ class Mapper[A, B](f: A => B) extends EasyTransducer[A, B]  {
 /**
   * Describes flat mapping.
   *
-  * A limitation of this transducer is that it is hard-coded to reduce over traversables. Ideally, the collection or
-  * monad could be injected so that one could transduce any reduction.
-  *
   * @param f
   * @tparam A The origin type
   * @tparam B The destination type
