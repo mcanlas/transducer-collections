@@ -13,16 +13,16 @@ object Demonstration extends App {
 
   val stream = StreamLike(numbers)
 
-  println("\nHere is the foldable, rendered to standard out")
+  println("\nHere is the stream, rendered to standard out")
   println(stream.toList)
 
-  println("\nHere is the foldable, with a transducer applied manually")
+  println("\nHere is the stream, with a transducer applied manually")
   println(stream
     // notice how the destination type is explicit
     .fold[List[String]](Nil, transducer wrappedAround accumulateToList)
     .mkString(", "))
 
-  println("\nHere is the foldable, with a transducer applied behind the scenes")
+  println("\nHere is the stream, with a transducer applied behind the scenes")
   println(stream
     .filter(_ % 2 == 1)
     .map(_ + 200)
