@@ -16,6 +16,8 @@ object Foldable {
   def apply[A](xs: A*): Foldable[A] = new Foldable(xs)
 }
 
+trait StreamLike[A, B] extends CanFold[A] with CanChainOperations[A] with CanConvert[A, B]
+
 /**
   * An illustration of transducer trait use via an in-memory collection.
   *
@@ -23,13 +25,13 @@ object Foldable {
   * @tparam A
   */
 
-class Foldable[A](xs: Seq[A]) extends CanFold[A] with CanChainOperations[A] with CanConvert[A, A] {
+class Foldable[A](xs: Seq[A]) extends StreamLike[A, A] {
   def fold[B](z: B, f: (B, A) => B): B = xs.foldLeft(z)(f)
 
   def toList: List[A] = fold[List[A]](Nil, (acc, x) => acc :+ x)
 }
 
-class WrappedFoldable[A, B](xs: CanFold[A], t: Transducer[A, B]) extends CanFold[A] with CanChainOperations[A] with CanConvert[A, B] {
+class WrappedFoldable[A, B](xs: CanFold[A], t: Transducer[A, B]) extends StreamLike[A, B] {
   def fold[B](z: B, f: (B, A) => B): B = xs.fold(z, f)
 
   def toList: List[B] = fold[List[B]](Nil, t((acc, x) => acc :+ x))
