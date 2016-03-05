@@ -32,7 +32,7 @@ class Foldable[A](xs: Seq[A]) extends CanFold[A] with CanChainOperations[A] with
 class WrappedFoldable[A, B](xs: CanFold[A], t: Transducer[A, B]) extends CanFold[A] with CanChainOperations[A] with CanConvert[A, B] {
   def fold[B](z: B, f: (B, A) => B): B = xs.fold(z, f)
 
-  def toList: List[B] = xs.fold[List[B]](Nil, t((acc, x) => acc :+ x))
+  def toList: List[B] = fold[List[B]](Nil, t((acc, x) => acc :+ x))
 }
 
 /**
