@@ -16,6 +16,11 @@ object Demonstration extends App {
   println("\nHere is the stream, rendered to standard out")
   println(stream.toList)
 
+  println("\nHere is the stream, with no transducer")
+  println(stream
+    .fold(Nil, accumulateToList)
+    .mkString(", "))
+
   println("\nHere is the stream, with a transducer applied manually")
   println(stream
     // notice how the destination type is explicit
