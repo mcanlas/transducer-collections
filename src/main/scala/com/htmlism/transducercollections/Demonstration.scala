@@ -11,19 +11,19 @@ object Demonstration extends App {
       Mapper(n => n.toString * n) andThen
       FlatMapper(x => List(x, x))
 
-  val foldable = new Foldable(numbers)
+  val stream = new Foldable(numbers)
 
   println("\nHere is the foldable, rendered to standard out")
-  println(foldable.toList)
+  println(stream.toList)
 
   println("\nHere is the foldable, with a transducer applied manually")
-  println(foldable
+  println(stream
     // notice how the destination type is explicit
     .fold[List[String]](Nil, transducer wrappedAround accumulateToList)
     .mkString(", "))
 
   println("\nHere is the foldable, with a transducer applied behind the scenes")
-  println(foldable
+  println(stream
     .filter(_ % 2 == 1)
     .map(_ + 200)
     .toList
