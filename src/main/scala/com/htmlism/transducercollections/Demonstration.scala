@@ -14,7 +14,7 @@ object Demonstration extends App {
   val foldable = new Foldable(numbers)
 
   println("\nHere is the foldable, rendered to standard out")
-  println(foldable.render)
+  println(foldable.toList)
 
   println("\nHere is the foldable, with a transducer applied manually")
   println(foldable
@@ -26,7 +26,7 @@ object Demonstration extends App {
   println(foldable
     .filter(_ % 2 == 1)
     .map(_ + 200)
-    .render
+    .toList
     .mkString("; "))
 
   // { (acc, x) => acc :+ x } )
