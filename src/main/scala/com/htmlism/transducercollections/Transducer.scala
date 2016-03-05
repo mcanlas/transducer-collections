@@ -20,6 +20,11 @@ trait Transducer[A, B] {
     * May look backwards, but reducers are always talking about the destination. So if we want to change the source A
     * to the same destination B, then we are changing the overall reduction from original Bs to new As.
     *
+    * More easily understood given:
+    *
+    *     from (List[B], B) => List[B] // homogenous
+    *       to (List[B], A) => List[B] // input element is heterogeneous
+    *
     * @param red The given reducer
     * @tparam X The collection type
     * @return A reducer
@@ -46,7 +51,7 @@ trait Transducer[A, B] {
   */
 
 trait EasyTransducer[A, B] extends Transducer[A, B] {
-  def wrapping[X](red: Reducer[X, B]): Reducer[X, A] = apply[X](red)
+  def wrappedOnto[X](red: Reducer[X, B]): Reducer[X, A] = apply[X](red)
 
   /**
     * Exists only to make the return type more specific.
