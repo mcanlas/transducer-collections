@@ -19,7 +19,7 @@ object Demonstration extends App {
   println("\nHere is the foldable, with a transducer applied manually")
   println(foldable
     // notice how the destination type is annotated
-    .fold[List[String]](Nil, transducer wrapping accToList)
+    .fold[List[String]](Nil, transducer wrapping accumulateToList)
     .mkString(", "))
 
   println("\nHere is the foldable, with a transducer applied behind the scenes")
@@ -29,6 +29,6 @@ object Demonstration extends App {
     .toList
     .mkString("; "))
 
-  // { (acc, x) => acc :+ x } )
-  def accToList[A](acc: List[A], x: A) = acc :+ x
+  // { (acc, x) => acc :+ x }
+  def accumulateToList[A](acc: List[A], x: A) = acc :+ x
 }
