@@ -1,7 +1,7 @@
 package com.htmlism.transducercollections
 
 object StreamLike {
-  def apply[A](xs: Seq[A]): StreamLike[A, A] = new ListStream(xs)
+  def apply[A](xs: Seq[A]): StreamLike[A, A] = new SeqStream(xs)
 }
 
 trait StreamLike[A, B] extends CanFold[A] with CanChainOperations[A] with CanConvert[A, B]
@@ -13,7 +13,7 @@ trait StreamLike[A, B] extends CanFold[A] with CanChainOperations[A] with CanCon
   * @tparam A
   */
 
-class ListStream[A](xs: Seq[A]) extends StreamLike[A, A] {
+class SeqStream[A](xs: Seq[A]) extends StreamLike[A, A] {
   def fold[B](z: B, f: (B, A) => B): B = xs.foldLeft(z)(f)
 
   def toList: List[A] = fold[List[A]](Nil, (acc, x) => acc :+ x)
