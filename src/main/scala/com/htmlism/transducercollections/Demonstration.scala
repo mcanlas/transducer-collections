@@ -30,5 +30,5 @@ object Demonstration extends App {
     .mkString("; "))
 
   // { (acc, x) => acc :+ x }
-  def accumulateToList[A](acc: List[A], x: A) = acc :+ x
+  def accumulateToList[A](acc: List[A], x: A): List[A] = acc :+ x
 }
