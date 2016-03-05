@@ -11,7 +11,7 @@ object Demonstration extends App {
       Mapper(n => n.toString * n) andThen
       FlatMapper(x => List(x, x))
 
-  val stream = new Foldable(numbers)
+  val stream = StreamLike(numbers)
 
   println("\nHere is the foldable, rendered to standard out")
   println(stream.toList)

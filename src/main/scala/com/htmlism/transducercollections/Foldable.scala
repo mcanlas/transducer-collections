@@ -16,6 +16,10 @@ object Foldable {
   def apply[A](xs: A*): Foldable[A] = new Foldable(xs)
 }
 
+object StreamLike {
+  def apply[A](xs: Seq[A]): StreamLike[A, A] = new Foldable(xs)
+}
+
 trait StreamLike[A, B] extends CanFold[A] with CanChainOperations[A] with CanConvert[A, B]
 
 /**
