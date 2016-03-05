@@ -18,13 +18,14 @@ object Demonstration extends App {
 
   println("\nHere is the stream, with no transducer")
   println(stream
-    .fold(Nil, accumulateToList)
+    // notice how the destination type is explicit
+    .fold(Nil, { (acc: List[Int], x) => acc :+ x } )
     .mkString(", "))
 
   println("\nHere is the stream, with a transducer applied manually")
   println(stream
     // notice how the destination type is explicit
-    .fold[List[String]](Nil, transducer wrappedAround accumulateToList)
+    .fold(Nil, transducer wrappedAround { (acc: List[String], x) => acc :+ x })
     .mkString(", "))
 
   println("\nHere is the stream, with a transducer applied behind the scenes")
@@ -33,7 +34,4 @@ object Demonstration extends App {
     .map(_ + 200)
     .toList
     .mkString("; "))
-
-  // { (acc, x) => acc :+ x }
-  def accumulateToList[A](acc: List[A], x: A): List[A] = acc :+ x
 }
