@@ -22,8 +22,8 @@ trait Transducer[A, B] {
     *
     * More easily understood given:
     *
-    *     from (List[B], B) => List[B] // homogenous
-    *       to (List[B], A) => List[B] // input element is heterogeneous
+    *     from: (List[B], B) => List[B] // homogenous
+    *     to:   (List[B], A) => List[B] // input element is heterogeneous
     *
     * @param red The given reducer
     * @tparam X The collection type
