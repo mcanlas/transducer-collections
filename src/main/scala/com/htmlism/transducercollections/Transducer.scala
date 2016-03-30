@@ -3,6 +3,13 @@ package com.htmlism.transducercollections
 /**
   * Any structure that describes the transformation of data via the manipulation of reducers.
   *
+  * Included in this repository are three core, concrete transducer classes that correspond to common
+  * functional operations over collections: the filtering transducer, the mapping transducer, and the flat mapping
+  * transducer.
+  *
+  * At a high level, they could be viewed as simply adding a function `A => B` to a data processing pipeline. For
+  * filtering, the function would effectively be A => A, and for flat mapping, something akin to `A => Iterable[B]`.
+  *
   * @tparam A The origin type
   * @tparam B The destination type
   */
