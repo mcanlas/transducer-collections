@@ -87,11 +87,11 @@ class Composite[A, B, C](left: Transducer[A, B], right: Transducer[B, C]) extend
 
 class Filter[A](f: A => Boolean) extends EasyTransducer[A, A] {
   def apply[X](red: Reducer[X, A]): Reducer[X, A] =
-    (acc, x) =>
-      if (f(x))
-        red(acc, x)
+    (xs, a) =>
+      if (f(a))
+        red(xs, a)
       else
-        acc
+        xs
 }
 
 /**
@@ -104,7 +104,7 @@ class Filter[A](f: A => Boolean) extends EasyTransducer[A, A] {
 
 class Mapper[A, B](f: A => B) extends EasyTransducer[A, B]  {
   def apply[X](red: Reducer[X, B]): Reducer[X, A] =
-    (acc, x) => red(acc, f(x))
+    (xs, a) => red(xs, f(a))
 }
 
 /**
@@ -117,7 +117,7 @@ class Mapper[A, B](f: A => B) extends EasyTransducer[A, B]  {
 
 class FlatMapper[A, B](f: A => CanFold[B]) extends Transducer[A, B]  {
   def apply[X](red: Reducer[X, B]): Reducer[X, A] =
-    (acc, x) => f(x).fold(acc, red)
+    (xs, a) => f(a).fold(xs, red)
 }
 
 /**
